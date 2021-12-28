@@ -1,0 +1,115 @@
+Given an array of real numbers greater than zero in form of strings.
+
+Find if there exists a triplet (a,b,c) such that 1 < a+b+c < 2 . 
+
+ Return 1 for true or 0 for false.
+
+Example:
+
+Given [0.6, 0.7, 0.8, 1.2, 0.4] ,
+
+You should return 1
+
+as
+
+0.6+0.7+0.4=1.7
+
+1<1.7<2
+
+Hence, the output is 1.
+
+O(n) solution is expected.
+
+Note: You can assume the numbers in strings don’t overflow the primitive data type and there are no leading zeroes in numbers. Extra memory usage is allowed.
+
+
+
+
+
+
+int Solution::solve(vector<string> &A) {
+    vector<float>arr;
+    int n=A.size();
+    for(int i=0;i<n;i++)
+        arr.push_back(stof(A[i]));
+    vector<float>a;
+    vector<float>b;
+    vector<float>c;
+    float d = 2.0/3;
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]<d)
+            a.push_back(arr[i]);
+        else if(arr[i]>=d && arr[i]<=1)
+            b.push_back(arr[i]);
+        else
+            c.push_back(arr[i]);
+    }
+    float a1_max=INT_MIN,a2_max=INT_MIN,a3_max=INT_MIN;
+    float a1_min=INT_MAX,a2_min=INT_MAX;
+    float b1_min=INT_MAX,b2_min=INT_MAX;
+    float c1_min=INT_MAX;
+    for(int i=0;i<a.size();i++)
+    {
+        if(a[i]>a1_max)
+        {
+            a3_max = a2_max;
+            a2_max = a1_max;
+            a1_max = a[i];
+        }
+        else if(a[i]>a2_max)
+        {
+            a3_max = a2_max;
+            a2_max = a[i];
+        }
+        else if(a[i]>a3_max)
+            a3_max = a[i];
+    }
+    for(int i=0;i<a.size();i++)
+    {
+        if(a1_min>a[i])
+        {
+            a2_min = a1_min;
+            a1_min = a[i];
+        }
+        else if(a2_min>a[i])
+            a2_min = a[i];
+    }
+    for(int i=0;i<b.size();i++)
+    {
+        if(b1_min>b[i])
+        {
+            b2_min = b1_min;
+            b1_min = b[i];
+        }
+        else if(b2_min>b[i])
+            b2_min = b[i];
+    }
+    for(int i=0;i<c.size();i++)
+    {
+        c1_min = min(c1_min,c[i]);
+    }
+    // cout<<a.size()<<" "<<b.size()<<" "<<c.size()<<endl;
+    // cout<<a1_min<<" "<<a2_min<<endl;
+    // cout<<a1_max<<" "<<a2_max<<" "<<a3_max<<endl;
+    // cout<<b1_min<<" "<<b2_min<<endl;
+    // cout<<c1_min<<endl;
+    if(a1_max+a2_max+a3_max>1 && a1_max+a2_max+a3_max<2)
+        return 1;
+    float num1 = 1-(a1_max+a2_max);
+    float num2 = 2-(a1_max+a2_max);
+    for(int i=0;i<b.size();i++)
+    {
+        if(b[i]>num1 && b[i]<num2)
+            return 1;
+    }
+    // if(a1_max+a2_max+b1_min>1 && a1_max+a2_max+b1_min<2)
+    //     return 1; //
+    if(a1_min+a2_min+c1_min>1 && a1_min+a2_min+c1_min<2)
+        return 1;
+    if(a1_min+b1_min+b2_min>1 && a1_min+b1_min+b2_min<2)
+        return 1; //
+    if(a1_min+b1_min+c1_min<2)
+        return 1;
+    return 0;
+}
