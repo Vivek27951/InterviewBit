@@ -1,0 +1,95 @@
+Problem Description
+
+Given a sorted array A containing N integers both positive and negative.
+
+You need to create another array containing the squares of all the elements in A and return it in non-decreasing order.
+
+Try to this in O(N) time.
+
+
+Problem Constraints
+1 <= N <= 105.
+
+-103 <= A[i] <= 103
+
+
+
+Input Format
+First and only argument is an integer array A.
+
+
+
+Output Format
+Return a integer array as described in the problem above.
+
+
+
+Example Input
+Input 1:
+
+ A = [-6, -3, -1, 2, 4, 5]
+Input 2:
+
+ A = [-5, -4, -2, 0, 1]
+
+
+Example Output
+Output 1:
+
+ [1, 4, 9, 16, 25, 36]
+Output 2:
+
+ [0, 1, 4, 16, 25]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ vector<int> Solution::solve(vector<int> &A) {
+    int n = A.size();
+    vector<int>l;
+    vector<int>r;
+    for(int i=0;i<n;i++)
+    {
+        if(A[i]<0)
+            l.push_back(A[i]);
+        else
+            break;
+    }
+    for(int i=n-1;i>=0;i--)
+    {
+        if(A[i]>=0)
+            r.push_back(A[i]);
+        else
+            break;
+    }
+    vector<int>v;
+    int i = l.size()-1;
+    int j = r.size()-1;
+    while(i>=0 && j>=0)
+    {
+        if(pow(l[i],2)<pow(r[j],2))
+        {
+            v.push_back(pow(l[i],2));
+            i--;
+        }
+        else{
+            v.push_back(pow(r[j],2));
+            j--;
+        }
+    }
+    while(i>=0)
+    {
+        v.push_back(pow(l[i],2));
+        i--;
+    }
+    while(j>=0)
+    {
+        v.push_back(pow(r[j],2));
+        j--;
+    }
+    return v;
+}
