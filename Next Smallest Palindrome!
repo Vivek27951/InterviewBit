@@ -1,0 +1,111 @@
+Problem Description
+
+Given a numeric string A representing a large number you need to find the next smallest palindrome greater than this number.
+
+
+Problem Constraints
+1 <= |A| <= 100
+
+A doesn't start with zeroes and always contain digits from 0-9.
+
+Input Format
+First and only argument is an string A.
+
+Output Format
+Return a numeric string denoting the next smallest palindrome greater than A.
+
+Example Input
+Input 1:
+
+ A = "23545"
+Input 2:
+
+ A = "999"
+
+
+Example Output
+Output 1:
+
+ "23632"
+Output 2:
+
+ "1001"
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ string Solution::solve(string A) {
+    string s = A;
+   int n = s.length();
+    int mid = n/2;
+
+    int lefthalf = mid - 1;
+    int righthalf = (n%2)? mid+1 : mid;
+
+    bool leftSmaller = false;
+
+    int i=lefthalf;
+    int j=righthalf;
+
+    while(i>=0 && s[i] == s[j]){ 
+        i--;
+        j++;
+    }
+
+    if(i<0 || s[i] < s[j])
+        leftSmaller = true;
+
+    while(i>=0){ 
+        s[j] = s[i];
+        j++;
+        i--;
+        }
+
+    if(leftSmaller){
+        int carry = 1;
+        i = mid-1;
+
+        if(n%2 == 1){
+            int v = s[mid] - '0' + carry;
+            carry = (s[mid] - '0' + carry)/10;
+            s[mid] = v + '0';
+            j = mid+1;
+        }else
+            j=mid;
+
+        while(i>=0){
+            int v = s[i] - '0' + carry;
+            carry = (s[i] - '0' + carry)/10;
+            s[i] = v + '0';
+            s[j] = s[i];
+            j++;
+            i--;
+        }
+        if(carry){
+            string res = "1";
+            for(i=0; i<n-1; i++)
+                res += "0";
+
+            res += "1";
+            for(int i=0;i<res.size();i++)
+            {
+                if(res[i]==':')
+                    res[i] = '0';
+            }
+            return res;
+        }
+    }
+    for(int i=0;i<s.size();i++)
+    {
+        if(s[i]==':')
+            s[i] = '0';
+    }
+    return s;
+}
