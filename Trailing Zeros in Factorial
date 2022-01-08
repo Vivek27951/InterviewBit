@@ -46,7 +46,7 @@ Explanation 2:
  
  int Solution::trailingZeroes(int A) {
     // int ans = 0;
-    // for(int i=1;i<=A;i++){
+    // for(int i=5;i<=A;i=i+5){
     //     int num = i;
     //     while(num>0 && num%5==0)
     //     {
