@@ -1,0 +1,79 @@
+Given a string, find the rank of the string amongst its permutations sorted lexicographically. 
+
+Note that the characters might be repeated. If the characters are repeated, we need to look at the rank in unique permutations. 
+
+Look at the example for more details.
+
+Example :
+
+Input : 'aba'
+Output : 2
+
+The order permutations with letters 'a', 'a', and 'b' : 
+aab
+aba
+baa
+The answer might not fit in an integer, so return your answer % 1000003
+
+NOTE: 1000003 is a prime number
+
+NOTE: Assume the number of characters in string < 1000003
+
+
+
+
+
+
+
+int extendedEuclidian(int a, int b, int &x, int &y) {
+     if (a == 0) {
+           x = 0;
+           y = 1;
+           return b;
+     }
+     int x1, y1;
+     int gcd = extendedEuclidian(b % a, a, x1, y1);
+     x = y1 - (b / a) * x1;
+     y = x1;
+     return gcd;
+}
+
+long long fact(int n) {
+    int M = 1000003;
+    int res = 1;
+    for (int i = 1; i <= n; i++) {
+        res = ((res % M) * (i % M)) % M;
+    }
+    return res;
+}
+
+int Solution::findRank(string S) {
+    int n = S.size();
+    int M = 1000003;
+    long long ans = 1;
+    for (int i = 0; i < n; i++) {
+        int count = 0;
+        for (int j = i + 1; j < n; j++) {
+            if (S[j] < S[i]) {
+                count++;
+            }
+        }
+        unordered_map<char, int> m;
+        for (int j = i; j < n; j++) {
+            m[S[j]]++;
+        }
+        long long res = fact(n - i - 1) % M;
+        res = (count * res) % M;
+        for (auto k : m) {
+            int a = fact(k.second);
+            int x, y; 
+            int gcd = extendedEuclidian(a, M, x, y);
+
+            long long modInverse = (x % M + M) % M;
+             
+            res = ((res % M) * (modInverse % M)) % M;
+        }
+        ans = (ans + res) % M;
+    }
+    return (int)ans;
+}
