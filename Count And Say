@@ -1,0 +1,35 @@
+Problem Description
+
+The count-and-say sequence is the sequence of integers beginning as follows: 
+1, 11, 21, 1211, 111221, ...
+1 is read off as one 1 or 11. 11 is read off as two 1s or 21.
+21 is read off as one 2, then one 1 or 1211.
+
+Given an integer n, generate the nth sequence.
+
+Note: The sequence of integers will be represented as a string.
+
+Example:
+
+if n = 2, the sequence is 11.
+
+
+
+
+
+
+
+string Solution::countAndSay(int A) {
+    map <int, int> mp;
+    string s="1";
+    for( int k=2; k<=A; k++){
+    int j=0,i=0,count=0; string res="";
+    while( i<=j && j<s.length()){
+    if( s[i] == s[j]){ count++; j++;}
+    else{ res+= to_string(count)+s[i]; count=0; i=j;}
+    }
+        res+= to_string(count)+s[i];
+        s=res;
+    }
+    return s;
+}
