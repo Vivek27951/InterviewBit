@@ -1,0 +1,58 @@
+Find if Given number is power of 2 or not. 
+
+More specifically, find if given number can be expressed as 2^k where k >= 1.
+
+Input:
+
+number length can be more than 64, which mean number can be greater than 2 ^ 64 (out of long long range)
+Output:
+
+return 1 if the number is a power of 2 else return 0
+
+Example:
+
+Input : 128
+Output : 1
+
+
+
+
+
+
+
+int Solution::power(string A) {
+    // while(1)
+    // {
+    //     int n = A.size();
+    //     if(n<2)
+    //         break;
+    //     if((A[n-1]-'0')%2)
+    //         return 0;
+    //     string temp = "";
+    //     temp+=A[0];
+    //     string temp2 = "";
+    //     int carry = 0;
+    //     for(int i=1;i<A.size();i++)
+    //     {
+    //         temp+=A[i];
+    //         int num = stoi(temp)+(carry*10);
+    //         carry = num%2;
+    //         num = num/2;
+    //         temp2+=to_string(num);
+    //         temp="";
+    //     }
+    //     A=temp2;
+
+    //     // cout<<A<<" ";
+    // }
+    // // cout<<" * ";
+    // return (A=="2" || A=="4" || A=="8");
+    long double num = stold(A);
+if (num==1)
+return 0;
+if(floor(log2(num)) == ceil(log2(num)))
+{
+return 1;
+}
+return 0;
+}
