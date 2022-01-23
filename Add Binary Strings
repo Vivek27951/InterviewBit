@@ -1,0 +1,48 @@
+Problem Description
+
+Given two binary strings, return their sum (also a binary string).
+Example:
+
+a = "100"
+
+
+b = "11"
+Return a + b = "111".
+
+
+
+
+
+
+
+
+string Solution::addBinary(string A, string B) {
+    int n = A.size()-1;
+    int m = B.size()-1;
+    string s = "";
+    int carry = 0;
+    while(n>=0 && m>=0)
+    {
+        int num = (A[n]-'0')+(B[m]-'0')+carry;
+        carry = num/2;
+        s = to_string(num%2)+s;
+        n--;m--;
+    }
+    while(n>=0)
+    {
+        int num = (A[n]-'0')+carry;
+        carry = num/2;
+        s = to_string(num%2)+s;
+        n--;
+    }
+    while(m>=0)
+    {
+        int num = (B[m]-'0')+carry;
+        carry = num/2;
+        s = to_string(num%2)+s;
+        m--;
+    }
+    if(carry)
+        s="1"+s;
+    return s;
+}
