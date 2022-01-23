@@ -1,0 +1,79 @@
+Given two numbers represented as strings, return multiplication of the numbers as a string.
+
+Note: The numbers can be arbitrarily large and are non-negative.
+
+Note2: Your answer should not have leading zeroes. For example, 00 is not a valid answer.
+
+For example, 
+
+given strings "12", "10", your answer should be “120”.
+
+NOTE : DO NOT USE BIG INTEGER LIBRARIES ( WHICH ARE AVAILABLE IN JAVA / PYTHON ). 
+
+We will retroactively disqualify such submissions and the submissions will incur penalties.
+
+
+
+
+
+
+
+
+
+
+string Solution::multiply(string A, string B) {
+    if (A=="0" || B=="0")
+        return "0";
+    int n = A.size();
+    int m = B.size();
+    vector<vector<string>>v;
+    int len = 0;
+    for(int i=m-1;i>=0;i--)
+    {
+        vector<string>temp;
+        int l=0;
+        int carry = 0;
+        for(int j=i;j<m-1;j++)
+        {
+            temp.push_back("0");
+            l++;
+        }
+        for(int j=n-1;j>=0;j--)
+        {
+            int num = ((A[j]-'0')*(B[i]-'0')) + carry;
+            carry = num/10;
+            num = num%10;
+            temp.push_back(to_string(num)); 
+            l++;   //
+        }
+        while(carry)
+        {
+            temp.push_back(to_string(carry%10));
+            carry = carry/10;
+            l++;
+        }
+        v.push_back(temp);
+        len = max(len,l);
+    }
+    string s = "";
+    int num = 0;
+    for(int i=0;i<len;i++)
+    {
+        for(int j=0;j<v.size();j++)
+        {   
+            if(v[j].size()>i)
+                num +=  stoi(v[j][i]);
+        }
+        s+=to_string(num%10);
+        num=num/10;
+    }
+    while(num)
+    {
+        s+=to_string(num%10);
+        num=num/10;
+    }
+    reverse(s.begin(),s.end());
+    int i = 0;
+    while(s[i]=='0')i++;
+    return s.substr(i);
+}
