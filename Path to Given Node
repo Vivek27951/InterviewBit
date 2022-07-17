@@ -1,0 +1,21 @@
+bool f(TreeNode* A,int B,vector<int>& v){
+    if(A==NULL)
+        return false;
+    if(A->val==B){
+        v.push_back(B);
+        return true;;
+    }
+    v.push_back(A->val);
+    if( !f(A->left,B,v) && !f(A->right,B,v))
+    {
+        v.pop_back();
+        return false;
+    }
+    return true;
+}
+ 
+vector<int> Solution::solve(TreeNode* A, int B) {
+    vector<int>v;
+    f(A,B,v);
+    return v;
+}
